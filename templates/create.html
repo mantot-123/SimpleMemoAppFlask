@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<form action="/create" method="POST">
+    <a href="/"><< Back</a>
+    <h3>New flashcard</h3>
+    Title: <input type="text" name="title"><br><br>
+    Body <input type="text" name="body" size="40"><br><br>
+    <input type="submit" value="Add flashcard">
+</form>
+
+{% if callbackMsg %} 
+    {% if not isValid %}
+        <p style="color:red;">{{ callbackMsg }}</p>
+    {% else %}
+        <p style="color: green;">{{ callbackMsg}}</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

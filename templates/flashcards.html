@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>Your flashcards</h2>
+<p><a href="/create">New flashcard</a></p>
+
+{% if msgType == -1 %}
+    <p style="color: red;">{{ statusMsg }}</p>
+{% elif msgType == 0 %}
+    <p style="color: green;">{{ statusMsg }}</p>
+{% endif %}
+
+{% if flashcards %}
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Contents</th>
+            <th>Actions</th>
+        </tr>
+        {% for f in flashcards %}
+            <tr>
+                <td>{{ f.title }}</td>
+                <td>{{ f.body }}</td>
+                <td><a href="/delete/{{f.id}}">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>You currently have no saved flashcards. Click "New flashcard" to start creating one.</p>
+{% endif %}
+
+{% endblock %}

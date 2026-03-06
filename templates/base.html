@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- this should map to a stylesheet file in the 'static' folder -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>Flashcards revision application</title>
+        {% block head %} {% endblock %}
+    </head>
+    <body>
+        <h1>Kwizza - A flashcard revision app</h1>
+        {% block body %} {% endblock %}
+    </body>
+</html>
