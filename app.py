@@ -18,7 +18,7 @@ dbEngine = db.create_engine("sqlite:///database.db/")
 # can interact with the database directly by manipulating tables and data
 
 Session = sessionmaker(bind=dbEngine) # create a new database connection session using the sessionmaker object
-dbSession = Session()
+dbSession = Session() # "Session" is callable btw
 
 Base = declarative_base() # base class for database models
 class Flashcard(Base):
@@ -30,7 +30,6 @@ class Flashcard(Base):
 # automatically register all tables to the database if they don't yet exist
 Base.metadata.create_all(dbEngine) 
 
-
 @app.route("/create", methods=["POST", "GET"])
 def createFlashcard():
     if request.method == "POST":
@@ -40,7 +39,7 @@ def createFlashcard():
             newFlashcard = Flashcard(title=title, body=body)
             dbSession.add(newFlashcard)
             dbSession.commit()
-            return render_template("create.html", isValid=True, callbackMsg=f"Successfully created flashcard '{title}'")
+            return redirect(url_for("viewFlashcards", msgType=0, statusMsg=f"Successfully created flashcard '{title}'"))
         else:
             return render_template("create.html", isValid=False, callbackMsg=f"Failed to create flashcard. Please make sure to enter a title and body of the flashcard")
 
@@ -73,7 +72,7 @@ def deleteFlashcard(id=None):
 def viewFlashcards():
     flashcards = dbSession.query(Flashcard).all()
     statusMsg = request.args.get("statusMsg", "")
-    msgType = int(request.args.get("msgType", None))
+    msgType = int(request.args.get("msgType", 0))
     return render_template("flashcards.html", flashcards=flashcards, msgType=msgType, statusMsg=statusMsg)
 
 if __name__ == "__main__":
